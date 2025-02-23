@@ -34,7 +34,7 @@ struct MainTabView: View {
                     Text("Activity")
                 }
             
-            Text("Profile")
+            ProfileView()
                 .tabItem{
                     Image(systemName: "person.fill")
                     Text("Profile")
