@@ -22,7 +22,7 @@ struct MainTabView: View {
                     Text("Search")
                 }
             
-            Text("Reels")
+            ReelsView()
                 .tabItem{
                     Image(systemName: "play.rectangle.fill")
                     Text("Reels")
