@@ -1,15 +1,19 @@
-//
-//  User.swift
-//  InstagramClone
-//
-//  Created by Yassine EL KEFI on 24/2/2025.
-//
+struct LoginResponse: Codable {
+    let token: String
+    let user: UserData
+}
 
-import Foundation
-
-struct User: Codable{
+struct UserData: Codable {
     let id: String
-    let Username: String
+    let username: String // Note the lowercase 'u'
     let email: String
     let profileImage: String
+}
+
+struct User: Codable {
+    let id: String
+    let username: String
+    let email: String
+    let profileImage: String
+    let token: String?
 }

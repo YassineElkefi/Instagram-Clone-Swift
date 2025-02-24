@@ -25,7 +25,7 @@ struct LoginView: View {
                 
                 //Email Field
                 TextField("Email", text: $email)
-                    .textInputAutocapitalization(.none)
+                    .textInputAutocapitalization(.never)
                     .padding()
                     .background(Color(.systemGray6))
                     .cornerRadius(8)
@@ -100,7 +100,7 @@ struct LoginView: View {
             DispatchQueue.main.async {
                 isLoading = false
                 if success{
-                    print("✅ Login successful, navigating to home screen")
+                    print("✅ Login successful")
                 }else{
                     errorMessage = error ?? "Login failed. Please try again."
                 }

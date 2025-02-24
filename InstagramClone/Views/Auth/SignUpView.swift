@@ -105,7 +105,7 @@ struct SignUpView: View {
             DispatchQueue.main.async {
                 isLoading = false
                 if success {
-                    print("✅ Registration successful, navigating to home screen")
+                    print("✅ Registration successful")
                 }else{
                     errorMessage = error ?? "Registration Failed . Please try again later."
                 }
