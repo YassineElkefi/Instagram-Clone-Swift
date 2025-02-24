@@ -8,9 +8,10 @@
 import Foundation
 
 struct Post: Identifiable, Codable {
-    let id: Int
+    let id: String
     let user: String
-    let title: String
-    let conent: String
+    let profileImage: String?
+    let imageUrl: String?
+    let caption: String
     let likes: Int
 }

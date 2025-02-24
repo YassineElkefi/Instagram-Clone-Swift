@@ -9,17 +9,29 @@ import Foundation
 import SwiftUI
 
 struct PostView: View {
+    let post: Post
+    
     var body: some View{
         VStack(alignment: .leading, spacing: 8){
             //User Info
             HStack{
-                Image(systemName: "person.circle")
+                AsyncImage(url: URL(string: post.profileImage!)) { image in
+                                    image.resizable()
+                                        .scaledToFill()
+                                } placeholder: {
+                                    Color.gray
+                                }
+                                .frame(width: 40, height: 40)
+                                .clipShape(Circle())
+                
+                /*Image(systemName: "person.circle")
                     .resizable()
                     .scaledToFit()
                     .frame(width: 40, height: 40)
                     .clipShape(Circle())
+                 */
                 
-                Text("Username")
+                Text(post.user)
                     .font(.headline)
                 
                 Spacer()
@@ -34,9 +46,13 @@ struct PostView: View {
             .padding(.horizontal)
             
             //Post Image
-            Image("post_placeholder")
-                .resizable()
-                .scaledToFit()
+            AsyncImage(url: URL(string: post.imageUrl!)){ image in
+                image.resizable()
+                    .scaledToFit()
+            }placeholder: {
+                Color.gray
+            }
+            
             //Action buttons
             HStack(spacing: 16){
                 Button(action: {
@@ -64,16 +80,16 @@ struct PostView: View {
             .padding(.horizontal)
             
             //Like Counts
-            Text("Liked by user1 and 1919 others")
+            Text("\(post.likes) likes")
                 .font(.footnote)
                 .padding(.horizontal)
             
             //Caption
             HStack{
-                Text("Username")
+                Text(post.user)
                     .font(.footnote)
                     .bold() +
-                Text(" Ma trabbina hasser fasser ma trabbina hancha thasser")
+                Text(post.caption)
                     .font(.footnote)
             }
             .padding(.horizontal)
@@ -90,6 +106,6 @@ struct PostView: View {
 
 struct PostViewPreview: PreviewProvider {
     static var previews: some View {
-        PostView()
+        PostView(post: Post(id: "1", user: "Yassine", profileImage: "https://fastly.picsum.photos/id/52/200/300.jpg?hmac=inayaUU4kX3byMsd5J9f69GP4-Tt78mJ9lD21t34Cks", imageUrl: "https://fastly.picsum.photos/id/237/200/300.jpg?hmac=TmmQSbShHz9CdQm0NkEjx1Dyh_Y984R9LpNrpvH2D_U", caption: "Bom Bom Fish", likes: 25))
     }
 }

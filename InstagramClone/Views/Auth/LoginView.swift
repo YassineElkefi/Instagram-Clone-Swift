@@ -10,6 +10,9 @@ import SwiftUI
 struct LoginView: View {
     @State private var email: String = ""
     @State private var password: String = ""
+    @EnvironmentObject var authManager: AuthManager
+    @State private var isLoading: Bool = false
+    @State private var errorMessage: String?
     
     var body: some View{
         NavigationView{
@@ -17,11 +20,8 @@ struct LoginView: View {
                 Spacer()
                 
                 //Instagram Logo
-                Image(systemName: "camera.viewfinder")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 100, height: 100)
-                    .padding(.bottom, 30)
+                Text("Instagram")
+                    .font(.system(size: 30, weight: .bold))
                 
                 //Email Field
                 TextField("Email", text: $email)
@@ -37,21 +37,35 @@ struct LoginView: View {
                     .background(Color(.systemGray6))
                     .cornerRadius(8)
                     .padding(.horizontal)
-                    
-                //Login Button
-                Button(action: {
-                    print("Login Tapped")
-                }) {
-                    Text("Login")
-                        .foregroundColor(.white)
-                        .font(.headline)
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.blue)
-                        .cornerRadius(8)
-                        .padding(.horizontal)
+                
+                //Error Message
+                if let errorMessage = errorMessage{
+                    Text(errorMessage)
+                        .foregroundColor(.red)
+                        .font(.footnote)
+                        .padding(.top, 5)
                 }
+                
+                //Login Button
+                Button(action: loginUser) {
+                    if isLoading {
+                        ProgressView()
+                            .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                    } else {
+                        Text("Login")
+                            .foregroundColor(.white)
+                            .font(.headline)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                    }
+                }
+                .background(Color.blue)
+                .cornerRadius(8)
+                .padding(.horizontal)
                 .padding(.top, 10)
+                .disabled(isLoading)
                 
                 //Forgot Password
                 Button(action: {
@@ -75,6 +89,21 @@ struct LoginView: View {
                     .font(.footnote)
                 }
                 .padding(.bottom, 30)
+            }
+        }
+    }
+    private func loginUser(){
+        isLoading = true
+        errorMessage = nil
+        
+        authManager.login(email: email, password: password){ success, error in
+            DispatchQueue.main.async {
+                isLoading = false
+                if success{
+                    print("✅ Login successful, navigating to home screen")
+                }else{
+                    errorMessage = error ?? "Login failed. Please try again."
+                }
             }
         }
     }

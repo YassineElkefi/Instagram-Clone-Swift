@@ -9,17 +9,21 @@ import Foundation
 import SwiftUI
 
 struct HomeView: View {
+    @ObservedObject var networkManager = NetworkManager()
     var body: some View {
         NavigationView{
             ScrollView{
                 LazyVStack{
-                    ForEach(0..<10, id: \.self){ _ in
-                        PostView()
+                    ForEach(networkManager.posts){ post in
+                        PostView(post: post)
                     }
                 }
                 .padding(.top)
             }
             .navigationTitle("Instagram")
+            .onAppear{
+                networkManager.fetchPosts()
+            }
         }
     }
 }

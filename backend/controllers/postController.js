@@ -1,16 +1,30 @@
-const posts = [
-    { id: 1, user: 'user1', title: 'Beautiful Sunset', content: 'This is an amazing sunset photo!', likes: 120 },
-    { id: 2, user: 'user2', title: 'Vacation in Bali', content: 'Having a great time in Bali!', likes: 180 },
-  ];
-  
-  exports.getPosts = (req, res) => {
-    res.json(posts);
-  };
-  
-  exports.createPost = (req, res) => {
-    const newPost = req.body;
-    newPost.id = posts.length + 1; // Auto-increment post id
-    posts.push(newPost);
-    res.json(newPost);
-  };
-  
+const Post = require('../models/Post');
+
+// Fetch all posts
+exports.getPosts = async (req, res) => {
+    try {
+        const posts = await Post.find().sort({ timestamp: -1 });
+        res.json(posts);
+    } catch (error) {
+        res.status(500).json({ message: "Error fetching posts" });
+    }
+};
+
+// Create a new post
+exports.createPost = async (req, res) => {
+    try {
+        const { user, profileImage, imageUrl, caption } = req.body;
+
+        const newPost = new Post({
+            user,
+            profileImage,
+            imageUrl,
+            caption
+        });
+
+        await newPost.save();
+        res.status(201).json(newPost);
+    } catch (error) {
+        res.status(500).json({ message: "Error creating post" });
+    }
+};
