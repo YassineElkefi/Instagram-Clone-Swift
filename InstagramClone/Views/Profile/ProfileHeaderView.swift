@@ -26,7 +26,7 @@ struct ProfileHeaderView: View {
             VStack(alignment: .leading, spacing: 4) {
                 Text("username")
                     .font(.headline)
-                Text("Bio goes here...")
+                Text("Cuba La famille")
                     .font(.footnote)
             }
             .frame(maxWidth: .infinity, alignment: .leading)

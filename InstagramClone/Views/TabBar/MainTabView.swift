@@ -28,11 +28,10 @@ struct MainTabView: View {
                     Text("Reels")
                 }
             
-            Text("Activity")
-                .tabItem{
-                    Image(systemName: "heart.fill")
-                    Text("Activity")
-                }
+            ActivityView()                .tabItem{
+                Image(systemName: "heart.fill")
+                Text("Activity")
+            }
             
             ProfileView()
                 .tabItem{
